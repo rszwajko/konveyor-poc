@@ -1,7 +1,6 @@
 {
   "name": "konveyor-poc",
   "displayName": "konveyor-poc",
-  "author": "konveyor",
   "description": "PoC",
   "version": "0.0.1",
   "license": "Apache-2.0",
@@ -12,13 +11,12 @@
     "Other"
   ],
   "activationEvents": [
-    "onStartupFinished",
-    "onLanguage:plaintext"
+    "onStartupFinished"
   ],
   "extensionDependencies": [
     "Continue.continue"
   ],
-  "main": "./client/out/extension.js",
+  "main": "./dist/extension.js",
   "contributes": {
     "commands": [
       {
@@ -27,19 +25,13 @@
       }
     ]
   },
-  "workspaces": [
-    "server",
-    "client"
-  ],
   "scripts": {
-    "compile": "npm run clean && tsc -b && npm run compile -ws --if-present",
-    "watch": "tsc -b -w",
-    "lint": "npm run lint -ws --if-present",
-    "test": "npm run test -ws --if-present",
-    "clean": "rimraf ./dist ./out && npm run clean -ws --if-present"
+    "compile": "tsc -b",
+    "lint": "eslint src",
+    "clean": "rimraf ./dist ./out"
   },
   "dependencies": {
-    "rimraf": "^4.4.1"
+    "vscode-languageclient": "^9.0.1"
   },
   "devDependencies": {
     "@types/vscode": "^1.93.0",
