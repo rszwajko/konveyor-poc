@@ -66,18 +66,26 @@ async function validateTextDocument(
     };
     return {
       severity: DiagnosticSeverity.Warning,
-      relatedInformation: [
-        {
-          location: {
-            uri: textDocument.uri,
-            range,
-          },
-          message: "Spelling matters",
-        },
-      ],
+      code: "ee-to-quarkus-00000",
+      codeDescription: {
+        href: "https://github.com/konveyor/rulesets/blob/main/default/generated/quarkus/200-ee-to-quarkus.windup.yaml",
+      },
+      // relatedInformation: [
+      //   {
+      //     location: {
+      //       uri: textDocument.uri,
+      //       range,
+      //     },
+      //     message: "Spelling matters",
+      //   },
+      // ],
       range,
-      message: `Stateless EJBs can be converted to a CDI bean by replacing the "@Stateless"
-    annotation with a scope eg "@ApplicationScoped"`,
+      // original message from the rule
+      //   message: `Stateless EJBs can be converted to a CDI bean by replacing the "@Stateless"
+      // annotation with a scope eg "@ApplicationScoped"`,
+      // message with code samples
+      message:
+        'Stateless EJBs can be converted to a CDI bean by replacing the "@Stateless" annotation with a scope. Example with conversion to "@ApplicationScoped":  code before the conversion ```import javax.ejb.Stateless;```,  code after: ```import jakarta.enterprise.context.ApplicationScoped;```',
       source: "Konveyor PoC",
     };
   });
