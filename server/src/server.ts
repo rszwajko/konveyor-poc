@@ -8,56 +8,37 @@ import {
   Diagnostic,
   DiagnosticSeverity,
   ProposedFeatures,
-  InitializeParams,
-  DidChangeConfigurationNotification,
-  CompletionItem,
-  CompletionItemKind,
-  TextDocumentPositionParams,
   TextDocumentSyncKind,
-  InitializeResult,
   DocumentDiagnosticReportKind,
   type DocumentDiagnosticReport,
 } from "vscode-languageserver/node";
 
 import { TextDocument } from "vscode-languageserver-textdocument";
 
-// Create a connection for the server, using Node's IPC as a transport.
-// Also include all preview / proposed LSP features.
 const connection = createConnection(ProposedFeatures.all);
-
-// Create a simple text document manager.
 const documents: TextDocuments<TextDocument> = new TextDocuments(TextDocument);
 
-connection.onInitialize((params: InitializeParams) => {
-  const capabilities = params.capabilities;
-
-  const result: InitializeResult = {
-    capabilities: {
-      textDocumentSync: TextDocumentSyncKind.Incremental,
-      // Tell the client that this server supports code completion.
-      completionProvider: {
-        resolveProvider: true,
-      },
-      diagnosticProvider: {
-        interFileDependencies: false,
-        workspaceDiagnostics: false,
-      },
+connection.onInitialize(() => ({
+  capabilities: {
+    textDocumentSync: TextDocumentSyncKind.Incremental,
+    diagnosticProvider: {
+      interFileDependencies: false,
+      workspaceDiagnostics: false,
     },
-  };
-  return result;
-});
+  },
+}));
 
-connection.onInitialized(() => {
-  console.log("Server initialized");
+connection.onInitialized((params) => {
+  console.log("Server initialized", params);
 });
 
 connection.onDidChangeConfiguration((change) => {
-  console.log("onDidChangeConfiguration");
+  console.log("onDidChangeConfiguration", change);
   connection.languages.diagnostics.refresh();
 });
 
 documents.onDidClose((e) => {
-  console.log("documents.onDidClose");
+  console.log("documents.onDidClose", e);
 });
 
 connection.languages.diagnostics.on(async (params) => {
@@ -106,9 +87,5 @@ connection.onDidChangeWatchedFiles((_change) => {
   connection.console.log("connection.onDidChangeWatchedFiles");
 });
 
-// Make the text document manager listen on the connection
-// for open, change and close text document events
 documents.listen(connection);
-
-// Listen on the connection
 connection.listen();

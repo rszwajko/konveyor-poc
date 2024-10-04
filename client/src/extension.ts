@@ -11,15 +11,11 @@ import {
 let client: LanguageClient;
 
 export function activate(context: vscode.ExtensionContext) {
-  console.log('Congratulations, your extension "konveyor-poc" is now active!');
+  console.log('Activating extension "konveyor-poc"...');
 
   const disposable = vscode.commands.registerCommand(
     "konveyor-poc.helloWorld",
-    () => {
-      // The code you place here will be executed every time your command is executed
-      // Display a message box to the user
-      vscode.window.showInformationMessage("Hello World from konveyor-poc!");
-    }
+    () => vscode.window.showInformationMessage("Hello World from konveyor-poc!")
   );
 
   context.subscriptions.push(disposable);
@@ -37,28 +33,25 @@ export function activate(context: vscode.ExtensionContext) {
   };
 
   const clientOptions: LanguageClientOptions = {
-    documentSelector: [{ scheme: "file", language: "plaintext" }],
-    synchronize: {
-      //   fileEvents: workspace.createFileSystemWatcher("**/.clientrc"),
-    },
+    documentSelector: [
+      { scheme: "file", language: "plaintext" },
+      { scheme: "file", language: "java" },
+      { scheme: "jdt", language: "java" },
+      { scheme: "untitled", language: "java" },
+    ],
   };
 
-  // Create the language client and start the client.
   client = new LanguageClient(
-    "languageServerExample",
-    "Language Server Example",
+    "konveyorPoCLanguageServer",
+    "Konveyor PoC Language Server",
     serverOptions,
     clientOptions
   );
 
-  // Start the client. This will also launch the server
   client.start();
-  console.log("Client started!");
+  console.log("Konveyor PoC is now active!");
 }
 
 export function deactivate(): Thenable<void> | undefined {
-  if (!client) {
-    return undefined;
-  }
-  return client.stop();
+  return client?.stop();
 }

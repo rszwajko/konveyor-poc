@@ -1,29 +1,10 @@
 {
-  "name": "konveyor-poc",
-  "displayName": "konveyor-poc",
+  "name": "konveyor-poc-client",
   "description": "PoC",
   "version": "0.0.1",
   "license": "Apache-2.0",
   "engines": {
     "vscode": "^1.93.0"
-  },
-  "categories": [
-    "Other"
-  ],
-  "activationEvents": [
-    "onStartupFinished"
-  ],
-  "extensionDependencies": [
-    "Continue.continue"
-  ],
-  "main": "./dist/extension.js",
-  "contributes": {
-    "commands": [
-      {
-        "command": "konveyor-poc.helloWorld",
-        "title": "Hello World"
-      }
-    ]
   },
   "scripts": {
     "compile": "tsc -b",

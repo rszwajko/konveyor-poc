@@ -13,7 +13,8 @@
   ],
   "activationEvents": [
     "onStartupFinished",
-    "onLanguage:plaintext"
+    "onLanguage:plaintext",
+    "onLanguage:java"
   ],
   "extensionDependencies": [
     "Continue.continue"
