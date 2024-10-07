@@ -7,6 +7,8 @@ import {
   ServerOptions,
   TransportKind,
 } from "vscode-languageclient/node";
+import { KonveyorProvider } from "./KonveyorProvider";
+import registerQuickFixProvider from "./AskKonveyor";
 
 let client: LanguageClient;
 
@@ -49,6 +51,13 @@ export function activate(context: vscode.ExtensionContext) {
   );
 
   client.start();
+
+  const continueExt = vscode.extensions.getExtension("continue.continue");
+  const continueApi = continueExt?.exports;
+  continueApi?.registerCustomContextProvider(KonveyorProvider);
+
+  registerQuickFixProvider();
+
   console.log("Konveyor PoC is now active!");
 }
 

@@ -1,7 +1,3 @@
-/* --------------------------------------------------------------------------------------------
- * Copyright (c) Microsoft Corporation. All rights reserved.
- * Licensed under the MIT License. See License.txt in the project root for license information.
- * ------------------------------------------------------------------------------------------ */
 import {
   createConnection,
   TextDocuments,
@@ -80,12 +76,26 @@ async function validateTextDocument(
       //   },
       // ],
       range,
-      // original message from the rule
-      //   message: `Stateless EJBs can be converted to a CDI bean by replacing the "@Stateless"
-      // annotation with a scope eg "@ApplicationScoped"`,
-      // message with code samples
       message:
-        'Stateless EJBs can be converted to a CDI bean by replacing the "@Stateless" annotation with a scope. Example with conversion to "@ApplicationScoped":  code before the conversion ```import javax.ejb.Stateless;```,  code after: ```import jakarta.enterprise.context.ApplicationScoped;```',
+        // original message from the rule
+        // usually nice speech but inaccurate code changes
+        `Stateless EJBs can be converted to a CDI bean by replacing the "@Stateless" annotation with a scope eg "@ApplicationScoped"`,
+      // provide package details
+      // code changes correct but contain some random code
+      // `Stateless EJBs can be converted to a CDI bean by replacing the "@Stateless" annotation with a scope eg "jakarta.enterprise.context.ApplicationScoped".`,
+      // message with code sample
+      // limited and correct change
+      //   `Stateless EJBs can be converted to a CDI bean by replacing the "@Stateless" annotation with a scope eg "@ApplicationScoped".
+      //  Example with conversion to "@ApplicationScoped":
+      //  \`\`\`
+      //  - import javax.ejb.Stateless;
+      //  + import jakarta.enterprise.context.ApplicationScoped;
+
+      //  - @Stateless
+      //  + @ApplicationScoped
+      //  public class Bar {
+      //  \`\`\`
+      //  `,
       source: "Konveyor PoC",
     };
   });
